@@ -1,6 +1,7 @@
 import os
 import requests
 
+# Uses SerpAPI to fetch Google Jobs
 def extract_google_jobs(query, location):
     
     serpapi_key = os.getenv("SERPAPI_KEY")
@@ -24,6 +25,7 @@ def extract_google_jobs(query, location):
     job_results = data.get("jobs_results", [])
     jobs = []
     
+    # Pull fields from the JSON
     for job in job_results:
         extracted_job = {
             "Job Title": job.get("title", None),

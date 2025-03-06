@@ -6,6 +6,7 @@ from linkedin_extractor import extract_linkedin_jobs
 from data_transformer import transform_jobs_data
 from storage import store_to_csv, store_to_sqlite
 
+# Repeat pipeline
 def run_job_pipeline():
     all_jobs = []
 

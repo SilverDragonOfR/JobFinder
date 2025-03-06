@@ -3,6 +3,7 @@ import sqlite3
 from datetime import datetime
 
 def store_to_csv(df, csv_file="jobs_output.csv"):
+    # Add timestamp to each row
     df["Timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     try:
@@ -17,6 +18,7 @@ def store_to_csv(df, csv_file="jobs_output.csv"):
     print(f"Data successfully appended to {csv_file} (duplicates removed).")
 
 def store_to_sqlite(df, sqlite_file="jobs_output.sqlite", table_name="job_postings"):
+    # Add timestamp to each row
     df["Timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     conn = sqlite3.connect(sqlite_file)

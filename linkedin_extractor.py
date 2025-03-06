@@ -9,6 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 
 def extract_linkedin_jobs(query, location):
+    # We'll load 2 pages
     pages = 2
     
     options = webdriver.ChromeOptions()
@@ -23,6 +24,7 @@ def extract_linkedin_jobs(query, location):
     
     driver.get(url)
 
+    # Scroll and click "Show more" multiple times
     for i in range(pages):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
@@ -45,6 +47,7 @@ def extract_linkedin_jobs(query, location):
         class_="base-card relative w-full hover:no-underline focus:no-underline base-card--link base-search-card base-search-card--link job-search-card",
     )
 
+    # Collect details from each job card
     try:
         for job in job_listings:
             job_title = job.find("h3", class_="base-search-card__title").text.strip()

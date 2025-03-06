@@ -5,8 +5,8 @@ from linkedin_extractor import extract_linkedin_jobs
 from data_transformer import transform_jobs_data
 from storage import store_to_csv, store_to_sqlite
 
+# One-time pipeline entry
 def main(args):
-    
     all_jobs = []
     
     if args.source in ["google", "both"]:
