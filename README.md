@@ -118,4 +118,30 @@ For daily automated runs, configure and use Celery with `tasks.py` and `job_pipe
 
     This initiates the Celery Beat scheduler, which will execute `job_pipeline_repeat.py` daily at midnight (as configured in `tasks.py`). Keep this process running for scheduled executions.
 
-**Stopping Scheduled Runs:** Terminate the Celery Beat process (e.g., `Ctrl+C`).
+3. **Stopping Scheduled Runs:** Terminate the Celery Beat process (e.g., `Ctrl+C`).
+
+
+## New Job Pipeline Changes
+
+This update introduces several enhancements to the job scraping pipeline:
+
+- **Converted Links to Direct ATS Links:**  
+  The script now retrieves the actual ATS link by clicking the "company website" button instead of using the default LinkedIn apply URL. This ensures that candidates are directed straight to the employer's application page.
+
+- **CSV Output Option:**  
+  The pipeline also exports job data to a CSV file. A sample output file (`jobs_output.csv`) is provided.
+
+- **Time Filter Option:**  
+  A new command-line argument `--time` has been added to filter job postings based on recency. When you specify `--time "24hrs"`, the script returns only those postings that indicate they were published within the last 24 hours (e.g., "4 hours ago", "17 hours ago", "23 hours ago"). The default value is `any`, which retrieves postings regardless of time.
+
+- **Location Filter Option:**  
+  The job search now also accepts a location filter. For example, using `--location "United States"` will limit the job search to that specific location.
+
+- **Internal Option to control the number of job posting extracted from Google Jobs & Linkedin:**  
+  The internal parameter `max_possible` in both google_extractor.py and linkedin_extractor.py to control the maximum number of jobs which will be extracted from each.
+
+### New Test Argument
+
+```bash
+python job_pipeline.py --source both --query "Data Engineer" --time "24hrs" --location "United States" --output "csv"
+```

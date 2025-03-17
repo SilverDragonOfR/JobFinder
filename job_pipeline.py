@@ -7,17 +7,20 @@ from storage import store_to_csv, store_to_sqlite
 
 # One-time pipeline entry
 def main(args):
+    within_24hrs = (args.time == "24hrs")
     all_jobs = []
     
     if args.source in ["google", "both"]:
         print("Extracting jobs from Google Jobs via SerpAPI...")
-        google_jobs = extract_google_jobs(args.query, args.location)
+        max_google_jobs = 10
+        google_jobs = extract_google_jobs(args.query, args.location, max_google_jobs, within_24hrs)
         print(f"Found {len(google_jobs)} job postings from Google Jobs.")
         all_jobs.extend(google_jobs)
     
     if args.source in ["linkedin", "both"]:
         print("Extracting jobs from LinkedIn...")
-        linkedin_jobs = extract_linkedin_jobs(args.query, args.location)
+        max_linkedin_jobs = 10
+        linkedin_jobs = extract_linkedin_jobs(args.query, args.location, max_linkedin_jobs, within_24hrs)
         print(f"Found {len(linkedin_jobs)} job postings from LinkedIn.")
         all_jobs.extend(linkedin_jobs)
     
@@ -41,6 +44,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Job Data Pipeline: Extract Data Engineer job postings from Google Jobs & LinkedIn")
     parser.add_argument("--source", choices=["google", "linkedin", "both"], default="both", help="Data source to extract from (google, linkedin, or both)")
     parser.add_argument("--query", type=str, default="Data Engineer", help="Job search query (default: 'Data Engineer')")
+    parser.add_argument("--time", choices=["24hrs", "any"], default="any", help="Oldest Time Posted: 24hrs or both (default: any)")
     parser.add_argument("--location", type=str, default="United States", help="Job location (default: 'United States')")
     parser.add_argument("--output", choices=["csv", "sqlite", "both"], default="both", help="Output format: csv, sqlite, or both (default: both)")
     
